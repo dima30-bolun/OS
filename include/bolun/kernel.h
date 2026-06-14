@@ -8,14 +8,19 @@
 #define BOLUN_MAX_PROCESSES 64
 #define BOLUN_MAX_THREADS 128
 #define BOLUN_MAX_HANDLES 256
-#define BOLUN_MAX_DRIVERS 64
+#define BOLUN_MAX_DRIVERS 256
 #define BOLUN_MAX_SERVICES 64
-#define BOLUN_MAX_DEVICES 128
+#define BOLUN_MAX_DEVICES 256
 #define BOLUN_MAX_VFS_NODES 128
 #define BOLUN_MAX_PAGE_CACHE 64
 #define BOLUN_PAGE_SIZE 4096u
 #define BOLUN_VFS_READ 1u
 #define BOLUN_VFS_WRITE 2u
+#define BOLUN_PAGE_WRITE 1u
+#define BOLUN_PAGE_USER 2u
+#define BOLUN_PAGE_EXEC 4u
+#define BOLUN_PAGE_DEVICE 8u
+#define BOLUN_MAX_IRQS 128
 
 typedef enum {
     BOLUN_READY,
@@ -41,6 +46,13 @@ typedef enum {
     BOLUN_ARCH_X86_64,
     BOLUN_ARCH_RISCV64
 } bolun_arch_t;
+
+
+typedef enum {
+    BOLUN_FS_UNKNOWN,
+    BOLUN_FS_FAT32,
+    BOLUN_FS_EXT4
+} bolun_fs_type_t;
 
 typedef enum {
     BOLUN_BUS_ROOT,
@@ -129,6 +141,16 @@ typedef struct {
     const char *modem;
 } bolun_hw_profile_t;
 
+
+typedef struct {
+    const char *name;
+    const char *device_class;
+    bolun_bus_t bus;
+    const char *compatible;
+    uint32_t required_caps;
+    const char *description;
+} bolun_catalog_driver_t;
+
 typedef struct {
     const char *name;
     bolun_bus_t bus;
@@ -146,6 +168,8 @@ typedef struct {
     bool has_aslr;
 } bolun_hal_info_t;
 
+typedef void (*bolun_irq_handler_t)(int irq, void *ctx);
+
 typedef struct {
     char path[64];
     uint32_t mode;
@@ -154,6 +178,8 @@ typedef struct {
     uint64_t version;
     bool used;
 } bolun_vfs_node_t;
+
+typedef void (*bolun_irq_handler_t)(int irq, void *ctx);
 
 typedef struct {
     char path[64];
@@ -191,6 +217,9 @@ void bolun_schedule_tick(void);
 int bolun_virtual_alloc(int pid, uintptr_t va, size_t bytes, uint32_t flags);
 int bolun_virtual_free(int pid, uintptr_t va, size_t bytes);
 int bolun_page_fault(int pid, uintptr_t va, bool write);
+int bolun_mmu_map(int pid, uintptr_t va, uintptr_t pa, uint32_t flags);
+int bolun_mmu_protect(int pid, uintptr_t va, uint32_t flags);
+int bolun_mmu_translate(int pid, uintptr_t va, bool write, bool user, uintptr_t *pa);
 int bolun_syscall(int nr, uintptr_t a, uintptr_t b, uintptr_t c, uintptr_t d);
 int bolun_ipc_send(int src, int dst, const void *data, size_t len);
 int bolun_ipc_recv(int pid, void *data, size_t cap);
@@ -221,14 +250,27 @@ int bolun_device_bind_all(void);
 int bolun_service_register(const char *name, int owner_pid);
 int bolun_service_set_running(const char *name, bool running);
 const bolun_hw_profile_t *bolun_lumia_profile(const char *model);
+size_t bolun_lumia_driver_count(void);
+int bolun_lumia_probe_all(void);
+int bolun_driver_catalog_register_all(void);
+size_t bolun_driver_catalog_count(void);
 void bolun_hal_init(bolun_arch_t arch, uint32_t cores, uint64_t timer_hz, bool has_mmu);
 const bolun_hal_info_t *bolun_hal_info(void);
 uint64_t bolun_hal_timer_deadline(uint64_t ticks_from_now);
+int bolun_irq_register(int irq, bolun_irq_handler_t handler, void *ctx);
+int bolun_irq_enable(int irq, bool enabled);
+int bolun_irq_dispatch(int irq);
 int bolun_vfs_create(const char *path, uint32_t mode);
 int bolun_vfs_write(const char *path, const void *data, size_t len, size_t off);
 int bolun_vfs_read(const char *path, void *data, size_t len, size_t off);
 int bolun_vfs_snapshot(const char *from, const char *to);
+bolun_fs_type_t bolun_fs_detect(const void *image, size_t bytes);
+int bolun_fs_format(void *image, size_t bytes, bolun_fs_type_t type);
 int bolun_page_cache_put(const char *path, uint32_t page_index, const void *data, size_t len, bool dirty);
 int bolun_page_cache_get(const char *path, uint32_t page_index, void *data, size_t cap);
+uint16_t bolun_inet_checksum(const void *data, unsigned len);
+int bolun_dns_query_name(const char *host, unsigned char *out, unsigned cap);
+int bolun_ipv4_build(uint8_t *out, size_t cap, uint32_t src, uint32_t dst, uint8_t proto, const void *payload, size_t payload_len);
+int bolun_udp_build(uint8_t *out, size_t cap, uint16_t src_port, uint16_t dst_port, const void *payload, size_t payload_len);
 
 #endif
