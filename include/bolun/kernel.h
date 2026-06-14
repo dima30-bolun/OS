@@ -221,6 +221,8 @@ int bolun_device_bind_all(void);
 int bolun_service_register(const char *name, int owner_pid);
 int bolun_service_set_running(const char *name, bool running);
 const bolun_hw_profile_t *bolun_lumia_profile(const char *model);
+size_t bolun_lumia_driver_count(void);
+int bolun_lumia_probe_all(void);
 void bolun_hal_init(bolun_arch_t arch, uint32_t cores, uint64_t timer_hz, bool has_mmu);
 const bolun_hal_info_t *bolun_hal_info(void);
 uint64_t bolun_hal_timer_deadline(uint64_t ticks_from_now);

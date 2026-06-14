@@ -16,7 +16,7 @@ This document records the realistic completion state of the current open impleme
 | Bus inventory | Partially implemented | Device metadata represents Device Tree, ACPI, PCI, USB, GPIO, I2C, SPI, UART, DMA, RTC, and PWM buses; enumeration is data-driven in the host model. |
 | Service Manager | Ready | Named services can be registered, owned by a process, and marked running. |
 | Lumia hardware profiles | Ready | Lumia 520, 525, 620, 625H, 720, 820, 920, 925, and 1020 profiles are represented with Snapdragon S4-class SoC metadata. |
-| Display, touch, storage, USB, power, input, audio, radio, modem, camera | Requires hardware support | Open integration boundaries are declared; production enablement requires board testing and open driver stacks. |
+| Phone-class driver inventory | Partially implemented | Display, touchscreen, framebuffer, GPU, audio, microphone, camera, USB host/device, battery, charger, power, RTC, GPIO, PWM, timers, watchdog, storage, serial buses, radios, sensors, haptics, LEDs, and buttons are registered through the Driver Manager; production enablement requires board resources and hardware documentation. |
 | VFS | Ready | In-memory VFS nodes support create, read, write, and snapshot operations for tests and early boot configuration. |
 | Page cache | Ready | Fixed-size page cache entries support path/page lookup and dirty-state tracking. |
 | FAT32, ext4, BolunFS | Partially implemented | The VFS boundary is in place; persistent on-disk format drivers remain to be added. |
