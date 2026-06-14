@@ -1,0 +1,1 @@
+{"name":"Bolun Phone OS","target":"lumia625h-mainos","version":"0.1.0","partitions_written":["MainOS"],"partitions_forbidden":["EFIESP","DPP","MODEM","DATA","RECOVERY","UEFI"]}
