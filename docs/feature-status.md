@@ -15,12 +15,26 @@ This document records the realistic completion state of the current open impleme
 | Driver model and Device Manager | Ready | Drivers and devices are registered independently, matched by class, and bound through a Plug-and-Play-style pass; the compiled portable catalog adds more than 100 module-level driver/device boundaries. |
 | Bus inventory | Partially implemented | Device metadata represents Device Tree, ACPI, PCI, USB, GPIO, I2C, SPI, UART, DMA, RTC, and PWM buses; enumeration is data-driven in the host model. |
 | Service Manager | Ready | Named services can be registered, owned by a process, and marked running. |
+ codex/analyze-and-implement-missing-drivers-spk9ne
 | Lumia hardware profiles | Ready | Lumia 520, 525, 620, 625H, 720, 820, 920, 925, 1020, Redmi 9A, and Redmi 9C NFC profiles are represented with SoC/display metadata; detailed board resources still require open board files or vendor documentation. |
 | Phone-class driver inventory | Partially implemented | Display, touchscreen, framebuffer, GPU, audio, microphone, camera, USB host/device, battery, charger, power, RTC, GPIO, PWM, timers, watchdog, storage, serial buses, radios, magnetometer/sensors, haptics, LEDs, and buttons are registered through the Driver Manager; production enablement requires board resources and hardware documentation. |
 | VFS | Ready | In-memory VFS nodes support create, read, write, and snapshot operations for tests and early boot configuration. |
 | Page cache | Ready | Fixed-size page cache entries support path/page lookup and dirty-state tracking. |
 | FAT32/ext4 detection and formatting | Partially implemented | Boot-sector/superblock detection and minimal in-memory FAT32/ext4 formatting helpers are available for mount probing tests; full persistent file operations and journaling still require block-device integration. |
 | Network stack helpers | Partially implemented | Internet checksum, DNS wire-name encoding, IPv4 packet construction, and UDP datagram construction are available; full TCP/TCPv6/DHCP/socket routing remains future work. |
+=======
+ codex/analyze-and-implement-missing-drivers-ph242g
+| Lumia hardware profiles | Ready | Lumia 520, 525, 620, 625H, 720, 820, 920, 925, 1020, Redmi 9A, and Redmi 9C NFC profiles are represented with SoC/display metadata; detailed board resources still require open board files or vendor documentation. |
+| Phone-class driver inventory | Partially implemented | Display, touchscreen, framebuffer, GPU, audio, microphone, camera, USB host/device, battery, charger, power, RTC, GPIO, PWM, timers, watchdog, storage, serial buses, radios, magnetometer/sensors, haptics, LEDs, and buttons are registered through the Driver Manager; production enablement requires board resources and hardware documentation. |
+=======
+| Lumia hardware profiles | Ready | Lumia 520, 525, 620, 625H, 720, 820, 920, 925, and 1020 profiles are represented with Snapdragon S4-class SoC metadata. |
+| Phone-class driver inventory | Partially implemented | Display, touchscreen, framebuffer, GPU, audio, microphone, camera, USB host/device, battery, charger, power, RTC, GPIO, PWM, timers, watchdog, storage, serial buses, radios, sensors, haptics, LEDs, and buttons are registered through the Driver Manager; production enablement requires board resources and hardware documentation. |
+ main
+| VFS | Ready | In-memory VFS nodes support create, read, write, and snapshot operations for tests and early boot configuration. |
+| Page cache | Ready | Fixed-size page cache entries support path/page lookup and dirty-state tracking. |
+| FAT32/ext4 detection and formatting | Partially implemented | Boot-sector/superblock detection and minimal in-memory FAT32/ext4 formatting helpers are available for mount probing tests; full persistent file operations and journaling still require block-device integration. |
+| Network stack helpers | Partially implemented | Internet checksum and DNS wire-name encoding are available; full TCP/IP remains future work. |
+ main
 | Application compatibility | Partially implemented | Package inspection identifies ELF, XAP, APPX/MSIX, APK, and EXE/PE; runtimes are sandbox/container-limited and x86/x86_64 PE is rejected instead of claimed runnable. |
 | Store, signatures, updates | Partially implemented | Manifest and package tooling exist; repository policy and update transport need deployment services. |
 | Graphical shell and system apps | Partially implemented | Documentation defines the Windows Phone-inspired direction; compositor and app surfaces need further implementation. |

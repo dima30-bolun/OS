@@ -2,12 +2,15 @@
 #include <assert.h>
 #include <string.h>
 
+ codex/analyze-and-implement-missing-drivers-spk9ne
 
 static void test_irq_handler(int irq, void *ctx)
 {
     int *seen = ctx;
     *seen += irq;
 }
+=======
+ main
 
 int main(void)
 {
@@ -73,6 +76,7 @@ int main(void)
     assert(bolun_ipc_recv(p, b, sizeof(b)) == (int)sizeof(mtext));
     assert(strcmp(b, mtext) == 0);
 
+ codex/analyze-and-implement-missing-drivers-spk9ne
     size_t catalog_count = bolun_driver_catalog_count();
     assert(catalog_count >= 112);
     assert(bolun_driver_catalog_register_all() == (int)catalog_count);
@@ -81,6 +85,14 @@ int main(void)
 
     size_t driver_count = bolun_lumia_driver_count();
     assert(driver_count == 37);
+=======
+    size_t driver_count = bolun_lumia_driver_count();
+ codex/analyze-and-implement-missing-drivers-ph242g
+    assert(driver_count == 37);
+=======
+    assert(driver_count == 36);
+ main
+ main
     assert(bolun_lumia_probe_all() == (int)driver_count);
     assert(bolun_driver_find("display") != 0);
     assert(bolun_driver_find("gpu") != 0);
@@ -102,12 +114,15 @@ int main(void)
     assert(bolun_fs_format(fs_image, sizeof(fs_image), BOLUN_FS_EXT4) == 0);
     assert(bolun_fs_detect(fs_image, sizeof(fs_image)) == BOLUN_FS_EXT4);
 
+ codex/analyze-and-implement-missing-drivers-spk9ne
     unsigned char udp[32];
     assert(bolun_udp_build(udp, sizeof(udp), 68, 67, mtext, sizeof(mtext)) == 8 + (int)sizeof(mtext));
     unsigned char ip[64];
     assert(bolun_ipv4_build(ip, sizeof(ip), 0x0a000001u, 0x0a000002u, 17, udp, 8u + sizeof(mtext)) == 28 + (int)sizeof(mtext));
     assert(bolun_inet_checksum(ip, 20) == 0);
 
+=======
+ main
     assert(bolun_vfs_create("/system/config", BOLUN_VFS_READ | BOLUN_VFS_WRITE) == 0);
     assert(bolun_vfs_write("/system/config", mtext, sizeof(mtext), 0) == (int)sizeof(mtext));
     memset(b, 0, sizeof(b));
