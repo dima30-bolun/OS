@@ -1,0 +1,4 @@
+#include "bolun/kernel.h"
+#include <stdio.h>
+enum { SYS_PROCESS_CREATE=1,SYS_PROCESS_EXIT,SYS_WAIT,SYS_THREAD_CREATE,SYS_SLEEP,SYS_VIRTUAL_ALLOC,SYS_VIRTUAL_FREE,SYS_WRITE,SYS_EVENT_SIGNAL };
+int bolun_syscall(int nr,uintptr_t a,uintptr_t b,uintptr_t c,uintptr_t d){ (void)d; switch(nr){ case SYS_PROCESS_CREATE: return bolun_process_create((int)a,(uint32_t)b); case SYS_PROCESS_EXIT: bolun_process_exit((int)a,(int)b); return 0; case SYS_WAIT: return bolun_wait((int)a,(int)b); case SYS_THREAD_CREATE: return bolun_thread_create((int)a,b,(int)c); case SYS_SLEEP: if(g_kernel.current_tid>0){ g_kernel.threads[g_kernel.current_tid].wake_tick=g_kernel.ticks+a; g_kernel.threads[g_kernel.current_tid].state=BOLUN_WAITING;} return 0; case SYS_VIRTUAL_ALLOC: return bolun_virtual_alloc((int)a,b,c,0); case SYS_VIRTUAL_FREE: return bolun_virtual_free((int)a,b,c); case SYS_WRITE: return printf("%.*s",(int)c,(const char*)b); case SYS_EVENT_SIGNAL: return 0; default: return -38; } }

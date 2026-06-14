@@ -1,0 +1,2 @@
+#include "bolun/kernel.h"
+void bolun_schedule_tick(void){ g_kernel.ticks++; int best=-1; int prio=-2147483647; for(int i=1;i<BOLUN_MAX_THREADS;i++){ bolun_thread_t *t=&g_kernel.threads[i]; if(t->state==BOLUN_WAITING && t->wake_tick<=g_kernel.ticks) t->state=BOLUN_READY; if(t->state==BOLUN_READY && t->priority>prio){ prio=t->priority; best=i; }} if(best>=0){ if(g_kernel.current_tid>0 && g_kernel.threads[g_kernel.current_tid].state==BOLUN_RUNNING) g_kernel.threads[g_kernel.current_tid].state=BOLUN_READY; g_kernel.current_tid=best; g_kernel.threads[best].state=BOLUN_RUNNING; }}
