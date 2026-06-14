@@ -1,1 +1,1 @@
-{"api":1,"languages":["C"],"package_formats":["bolunpkg","xap","appx","apk"],"permissions":["fs","net","device","phone","system"]}
+{"api":2,"languages":["C"],"package_formats":["bolunpkg","elf","xap","appx","apk","exe"],"permissions":["fs","net","device","phone","system"],"compatibility":{"xap":"sandboxed Silverlight-style package container","appx":"restricted WinRT-style package container","apk":"Android-runtime boundary without universal API compatibility","exe":"PE compatibility container for ARM/ARM64 only; x86 and x86_64 are reported unsupported"}}

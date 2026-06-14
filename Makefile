@@ -39,7 +39,7 @@ $(OUT)/tests/%: tests/%.c $(filter-out $(OUT)/userland/init/main.o,$(OBJS))
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $^ -o $@
 
-test: $(TEST_BINS)
+test: $(OUT)/tools/mkmainos $(TEST_BINS)
 	@set -e; for t in $(TEST_BINS); do echo RUN $$t; $$t; done
 
 image: all $(OUT)/tools/mkmainos
