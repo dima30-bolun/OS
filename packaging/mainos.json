@@ -1,1 +1,52 @@
-{"name":"Bolun Phone OS","target":"lumia625h-mainos","version":"0.1.0","partitions_written":["MainOS"],"partitions_forbidden":["EFIESP","DPP","MODEM","DATA","RECOVERY","UEFI"]}
+{
+  "name": "Bolun Phone OS",
+  "target": "lumia625h-mainos",
+  "version": "0.1.0",
+  "image_kind": "MainOS-only payload",
+  "partitions_written": ["MainOS"],
+  "partitions_forbidden": [
+    "EFIESP",
+    "DPP",
+    "MODEM",
+    "DATA",
+    "RECOVERY",
+    "UEFI",
+    "SBL",
+    "RPM",
+    "TZ",
+    "WINSECAPP",
+    "NV",
+    "CALIBRATION",
+    "RADIO",
+    "CAMERA",
+    "BLUETOOTH",
+    "WIFI",
+    "DSP"
+  ],
+  "mainos_contents": [
+    "kernel",
+    "hal",
+    "drivers",
+    "system_libraries",
+    "system_services",
+    "graphical_shell",
+    "window_system",
+    "filesystem",
+    "network_stack",
+    "system_apps",
+    "sdk",
+    "api",
+    "runtime",
+    "package_manager",
+    "app_store",
+    "diagnostics",
+    "documentation"
+  ],
+  "boot_policy": {
+    "preserve_bootloader": true,
+    "preserve_uefi": true,
+    "preserve_secure_boot": true,
+    "preserve_partition_table": true,
+    "no_trust_chain_bypass": true
+  }
+}

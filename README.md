@@ -16,4 +16,8 @@ The default build is a Linux-hosted ARMv7-compatible model used for validation. 
 
 ## Safety
 
-The image tool creates `out/bolun-mainos.img` only. It does not access block devices and cannot modify phone partitions. Flashing remains a separate manual research operation.
+The image tool creates `out/bolun-mainos.img` only. It does not access block devices and cannot modify phone partitions. Flashing remains a separate manual research operation. The detailed partition safety policy is documented in `docs/mainos-safety.md`; the MainOS payload layout is documented in `docs/mainos-layout.md`.
+
+## Feature status
+
+Current implementation status is tracked in `docs/feature-status.md`. The project reports hardware-dependent Lumia capabilities separately from host-validated kernel, synchronization, driver manager, service manager, packaging, and documentation features.

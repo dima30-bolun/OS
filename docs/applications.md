@@ -72,3 +72,14 @@ What it does: provides the Data calculator experience. Why it is needed: it cove
 ## FM radio
 What it does: provides the FM radio experience. Why it is needed: it covers a core phone task. How it works: it uses sandboxed services and capability checks optimized for Lumia ARMv7 profiles. User use: open it from the app list or a live tile.
 
+
+## Compatibility containers
+Bolun Phone OS now identifies XAP, APPX/MSIX, APK, EXE/PE, and ELF inputs before launch. XAP, APPX, and APK are ZIP-derived packages and are accepted only into sandboxed containers with explicit capability sets. ELF is handled by the native loader path when its machine type is known. EXE means PE executable support only; ARMv7 and ARM64 PE files may enter a compatibility container, while x86 and x86_64 PE files are reported as unsupported CPU targets rather than falsely advertised as runnable.
+
+| Format | Status | Runtime boundary |
+| --- | --- | --- |
+| ELF | Partially implemented | Native loader path for known CPU ABIs. |
+| XAP | Partially implemented | Sandboxed Silverlight-style container with declared filesystem and network capabilities. |
+| APPX/MSIX | Partially implemented | Restricted WinRT-style container with filesystem, network, and device capabilities. |
+| APK | Partially implemented | Android-runtime boundary with documented API limitations. |
+| EXE/PE | Partially implemented | ARMv7/ARM64 compatibility container only; x86/x86_64 PE files are rejected as unsupported CPU targets. |
