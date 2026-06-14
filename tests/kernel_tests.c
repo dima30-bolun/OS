@@ -54,7 +54,11 @@ int main(void)
     assert(strcmp(b, mtext) == 0);
 
     size_t driver_count = bolun_lumia_driver_count();
+ codex/analyze-and-implement-missing-drivers-ph242g
     assert(driver_count == 37);
+=======
+    assert(driver_count == 36);
+ main
     assert(bolun_lumia_probe_all() == (int)driver_count);
     assert(bolun_driver_find("display") != 0);
     assert(bolun_driver_find("gpu") != 0);
