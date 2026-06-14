@@ -42,6 +42,13 @@ typedef enum {
     BOLUN_ARCH_RISCV64
 } bolun_arch_t;
 
+
+typedef enum {
+    BOLUN_FS_UNKNOWN,
+    BOLUN_FS_FAT32,
+    BOLUN_FS_EXT4
+} bolun_fs_type_t;
+
 typedef enum {
     BOLUN_BUS_ROOT,
     BOLUN_BUS_DEVICE_TREE,
@@ -230,6 +237,8 @@ int bolun_vfs_create(const char *path, uint32_t mode);
 int bolun_vfs_write(const char *path, const void *data, size_t len, size_t off);
 int bolun_vfs_read(const char *path, void *data, size_t len, size_t off);
 int bolun_vfs_snapshot(const char *from, const char *to);
+bolun_fs_type_t bolun_fs_detect(const void *image, size_t bytes);
+int bolun_fs_format(void *image, size_t bytes, bolun_fs_type_t type);
 int bolun_page_cache_put(const char *path, uint32_t page_index, const void *data, size_t len, bool dirty);
 int bolun_page_cache_get(const char *path, uint32_t page_index, void *data, size_t cap);
 

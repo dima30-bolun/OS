@@ -131,3 +131,55 @@ int bolun_page_cache_get(const char *path, uint32_t page_index, void *data, size
     }
     return 0;
 }
+
+
+bolun_fs_type_t bolun_fs_detect(const void *image, size_t bytes)
+{
+    const unsigned char *b = image;
+    if (!b) {
+        return BOLUN_FS_UNKNOWN;
+    }
+    if (bytes >= 512 && b[510] == 0x55 && b[511] == 0xaa &&
+        memcmp(b + 82, "FAT32   ", 8) == 0) {
+        return BOLUN_FS_FAT32;
+    }
+    if (bytes >= 1082 && b[1080] == 0x53 && b[1081] == 0xef) {
+        return BOLUN_FS_EXT4;
+    }
+    return BOLUN_FS_UNKNOWN;
+}
+
+int bolun_fs_format(void *image, size_t bytes, bolun_fs_type_t type)
+{
+    unsigned char *b = image;
+    if (!b) {
+        return -1;
+    }
+    memset(b, 0, bytes);
+    switch (type) {
+    case BOLUN_FS_FAT32:
+        if (bytes < 512) {
+            return -2;
+        }
+        b[11] = 0x00;
+        b[12] = 0x02;
+        b[13] = 0x08;
+        b[14] = 0x20;
+        b[16] = 0x02;
+        b[21] = 0xf8;
+        memcpy(b + 82, "FAT32   ", 8);
+        b[510] = 0x55;
+        b[511] = 0xaa;
+        return 0;
+    case BOLUN_FS_EXT4:
+        if (bytes < 1082) {
+            return -2;
+        }
+        b[1024 + 56] = 0x53;
+        b[1024 + 57] = 0xef;
+        b[1024 + 92] = 0x01;
+        return 0;
+    default:
+        return -3;
+    }
+}

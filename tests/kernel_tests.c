@@ -54,7 +54,11 @@ int main(void)
     assert(strcmp(b, mtext) == 0);
 
     size_t driver_count = bolun_lumia_driver_count();
+ codex/analyze-and-implement-missing-drivers-ph242g
+    assert(driver_count == 37);
+=======
     assert(driver_count == 36);
+ main
     assert(bolun_lumia_probe_all() == (int)driver_count);
     assert(bolun_driver_find("display") != 0);
     assert(bolun_driver_find("gpu") != 0);
@@ -65,8 +69,16 @@ int main(void)
     const bolun_device_t *wifi = bolun_device_find("wi-fi");
     assert(wifi != 0 && wifi->online);
     assert(bolun_lumia_profile("Lumia 625H") != 0);
+    assert(bolun_lumia_profile("Redmi 9A") != 0);
+    assert(bolun_lumia_profile("Redmi 9C NFC") != 0);
     assert(bolun_service_register("power", 1) >= 0);
     assert(bolun_service_set_running("power", true) == 0);
+
+    unsigned char fs_image[2048];
+    assert(bolun_fs_format(fs_image, sizeof(fs_image), BOLUN_FS_FAT32) == 0);
+    assert(bolun_fs_detect(fs_image, sizeof(fs_image)) == BOLUN_FS_FAT32);
+    assert(bolun_fs_format(fs_image, sizeof(fs_image), BOLUN_FS_EXT4) == 0);
+    assert(bolun_fs_detect(fs_image, sizeof(fs_image)) == BOLUN_FS_EXT4);
 
     assert(bolun_vfs_create("/system/config", BOLUN_VFS_READ | BOLUN_VFS_WRITE) == 0);
     assert(bolun_vfs_write("/system/config", mtext, sizeof(mtext), 0) == (int)sizeof(mtext));

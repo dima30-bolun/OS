@@ -40,6 +40,10 @@ Hardware enablement remains split into two categories:
 | gps | gps | UART | GNSS daemon serial/QMI boundary |
 | gsm-lte-modem | modem | USB | QMI modem boundary |
 | nfc | nfc | I2C | NCI controller boundary |
+ codex/analyze-and-implement-missing-drivers-ph242g
+| magnetometer | magnetometer | I2C | IIO magnetometer boundary |
+=======
+ main
 | accelerometer | accelerometer | I2C | IIO accelerometer boundary |
 | gyroscope | gyroscope | I2C | IIO gyroscope boundary |
 | proximity-sensor | proximity | I2C | IIO proximity boundary |
